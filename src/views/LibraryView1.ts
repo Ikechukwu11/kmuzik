@@ -1,7 +1,6 @@
 import { getLibrary, addToLibrary } from "../store/libraryStore";
-import { addToQueue, clearQueue, initializeQueue } from "../store/queueStore";
-import type { LibraryTrack } from "../types/db";
-import { updatePlayerUI } from "../utils/controls";
+import { addToQueue } from "../store/queueStore";
+import type { LibraryTrack, QueueTrack } from "../types/db";
 
 export default function LibraryView(): string {
   const library = getLibrary();
@@ -33,7 +32,6 @@ function setupHandlers() {
   const addBtn = document.getElementById("add-music-btn")!;
   const input = document.getElementById("music-input") as HTMLInputElement;
   const list = document.getElementById("music-library");
-
   const player = document.getElementById("audio-player") as HTMLAudioElement;
 
   // Open file input
@@ -53,24 +51,37 @@ function setupHandlers() {
         src: "",
         url: "",
       };
-
       await addToLibrary(trackData);
 
-      // UI update
+      // Add to queue
+      const queueTrack: QueueTrack = {
+        title: trackData.title,
+        album: "",
+        artist: "Unknown",
+        fileName: trackData.fileName,
+        type: trackData?.type,
+        url: trackData?.url,
+        src: trackData.src,
+      };
+      await addToQueue(queueTrack);
+
+      // Update UI
       const blob = new Blob([trackData.fileData], { type: trackData.type });
       const url = URL.createObjectURL(blob);
-
       const li = document.createElement("li");
       li.textContent = `🎵 ${trackData.title}`;
       li.dataset.id = String(trackData.id);
-      li.addEventListener("click", () => handleTrackClick(trackData.id!, url));
+      li.addEventListener("click", () => {
+        player.src = url;
+        player.play();
+      });
       list?.appendChild(li);
     }
 
     input.value = "";
   });
 
-  // Setup click events for each library item
+  // Attach play handlers to existing tracks
   const library = getLibrary();
   library.forEach((track) => {
     const li = document.querySelector(`li[data-id="${track.id}"]`);
@@ -79,32 +90,9 @@ function setupHandlers() {
     const blob = new Blob([track.fileData], { type: track.type });
     const url = URL.createObjectURL(blob);
 
-    li.addEventListener("click", () => handleTrackClick(track.id!, url));
-  });
-
-  // Play the selected track from the queue
-  async function handleTrackClick(clickedId: number, clickedUrl: string) {
-    const library = getLibrary();
-
-    await clearQueue();
-    const queue: any[] = [];
-
-    for (const track of library) {
-      const { id, ...safeTrack } = track;
-      const newTrack = { ...safeTrack };
-      const newId = await addToQueue(newTrack);
-      queue.push({ ...newTrack, id: newId });
-    }
-
-    initializeQueue(queue);
-
-    const clickedIndex = library.findIndex((t) => t.id === clickedId);
-    if (clickedIndex !== -1) {
-      player.src = clickedUrl;
+    li.addEventListener("click", () => {
+      player.src = url;
       player.play();
-
-      updatePlayerUI(queue[clickedIndex]);
-    }
-  }
+    });
+  });
 }
-

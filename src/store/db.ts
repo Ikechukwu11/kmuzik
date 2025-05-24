@@ -99,6 +99,21 @@ export async function deleteFromStore<K extends StoreName>(
     req.onerror = () => reject(req.error);
   });
 }
+
+export async function deleteAllFromStore<K extends StoreName>(
+  storeName: K
+): Promise<void> {
+  const db = await openDatabase();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(storeName, "readwrite");
+    const store = tx.objectStore(storeName);
+    const req = store.clear(); // Clear entire store
+    req.onsuccess = () => resolve();
+    req.onerror = () => reject(req.error);
+  });
+}
+
+
 // Save arbitrary object with string key in settings
 export async function putSetting(key: string, value: any): Promise<void> {
   const db = await openDatabase();

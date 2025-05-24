@@ -33,7 +33,7 @@ export default function Layout(): string {
     </main>
   
     <footer class="mini-player">
-      <audio id="audio-player" controls hidden></audio>
+      <audio id="audio-player" autoplay controls hidden></audio>
       <div class="mini-info">🎵 Now Playing</div>
       <div class="mini-controls">
         <button id="prev-btn">⏮</button>

@@ -1,7 +1,7 @@
 // src/store/queueStore.ts
 
 import type { QueueTrack } from "../types/db";
-import { updateStoreItem, addToStore, deleteFromStore } from "./db";
+import { updateStoreItem, addToStore, deleteFromStore, deleteAllFromStore } from "./db";
 
 let queueData: QueueTrack[] = [];
 
@@ -33,6 +33,12 @@ export async function updateQueueItem(
     queueData[index] = { ...track, id };
   }
 }
+
+export async function clearQueue() {
+  await deleteAllFromStore("queue");
+  queueData = [];
+}
+
 
 // Delete track from queue by id
 export async function deleteFromQueue(id: number) {

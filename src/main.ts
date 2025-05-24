@@ -4,10 +4,10 @@ import renderLayout from "./layout/Layout";
 import { getAllFromStore } from "./store/db";
 import { initializeLibrary } from "./store/libraryStore";
 import { initializePlaylists } from "./store/playlistStore";
-import { initializeSettings } from "./store/settingsStore";
 import { initializeQueue } from "./store/queueStore";
-import { initControls } from "./utils/controls";
+import { initControls, restorePlayer } from "./utils/controls";
 import menuControls from "./utils/menu";
+import { initializeSettings } from "./store/settingsStore";
 
 async function loadInitialData() {
   const [library, playlists, settings, queue] = await Promise.all([
@@ -37,4 +37,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   initRouter();
   menuControls();
   initControls(); // ✅ Controls initialized
+  restorePlayer();
 });

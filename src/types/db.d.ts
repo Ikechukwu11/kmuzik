@@ -7,7 +7,7 @@ export interface LibraryTrack {
   file?: File;
   fileName: string;
   fileData: ArrayBuffer;
-  src: string;
+  src?: string;
   url?: string;
   type?: string;
 }
@@ -19,9 +19,10 @@ export interface QueueTrack {
   album?: string;
   duration?: number;
   fileName: string;
-  type?: string;
-  url?: string;
+  fileData: ArrayBuffer;
   src?: string;
+  url?: string;
+  type?: string;
 }
 
 export interface Playlist {
