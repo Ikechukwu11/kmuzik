@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>K Muzik</title>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="left-header">
+        <button id="menu-toggle">☰</button>
+        <h1>K Muzik</h1>
+      </div>
+      <div class="center-header">
+        <input type="text" class="search-input" placeholder="Search" />
+      </div>
+      <div class="right-header">
+        <button>⚙</button>
+      </div>
+    </header>
+
+    <main class="app-body">
+      <aside class="sidebar">
+        <nav class="sidebar-nav">
+          <ul>
+            <li data-target="library-view">
+              Library
+              <button id="add-music-btn">➕</button>
+              <input type="file" id="music-input" accept="audio/*" multiple hidden />
+            </li>
+            <li data-target="playlist-view">Playlists</li>
+            <li data-target="settings-view">Settings</li>
+          </ul>
+        </nav>
+      </aside>
+      <section id="library-view" class="view">
+        <ul id="music-library" class="music-library"></ul>
+      </section>
+    
+      <section id="playlist-view" class="view hidden">
+        <h2>Playlists</h2>
+        <input type="text" id="new-playlist-name" placeholder="New playlist name" />
+        <button id="create-playlist-btn">Create</button>
+        <ul id="playlist-list" class="playlist-list" ></ul>
+      </section>
+
+      
+      <section class="main-player hidden">
+        <div class="album-art">Album Art</div>
+        <div class="track-info">
+          <h2>Song Title</h2>
+          <p>Artist • Album</p>
+        </div>
+        <div class="progress-bar">
+          <span class="current-time">0:00</span>
+          <input type="range" min="0" max="100" value="0" id="progress-bar" />
+          <span class="total-time">0:00</span>  </div>
+        <div class="lyrics-area">Lyrics will appear here...</div>
+      </section>
+
+      <aside class="play-queue hidden">
+        <ul class="queue-list">
+          <li>Song 1</li>
+          <li>Song 2</li>
+          <li>Song 3</li>
+        </ul>
+      </aside>
+    </main>
+
+    <footer class="mini-player">
+      <audio id="audio-player" controls hidden></audio>
+      <div class="mini-info">🎵 Now Playing</div>
+      <div class="mini-controls">
+        <button id="prev-btn">⏮</button>
+        <button id="play-pause-btn">▶️</button>
+        <button id="next-btn">⏭</button>
+      </div>
+      <div class="mini-actions">
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value="50"
+          class="volume-slider"
+        />
+        <button id="mute-toggle">🔇</button>
+        <button>❤️</button>
+        <button>⋮</button>
+        <button id="queue-toggle">⬆</button>
+      </div>
+    </footer>
+
+    <div class="mobile-now-playing hidden">
+      <p>Now Playing: Song Title</p>
+    </div>
+
+    <nav class="mobile-nav sidebar-nav">
+      <li data-target="library-view">
+        Library
+        <button id="add-music-btn1">➕</button>
+        <input type="file" id="music-input" accept="audio/*" multiple hidden />
+      </li>
+      <li data-target="playlist-view">Playlists</li>
+      <li data-target="settings-view">Settings</li>
+
+    </nav>
+
+    <script src="script.js"></script>
+    <script type="module" src="library.js"></script>
+    <script type="module" src="playlist.js"></script>
+    <script  src="controls.js"></script>
+  </body>
+</html>

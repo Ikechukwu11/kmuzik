@@ -1,0 +1,294 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #111;
+  color: #fff;
+}
+
+#app {
+  display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #1f1f1f;
+  border-bottom: 1px solid #333;
+}
+
+.left-header,
+.center-header,
+.right-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#menu-toggle {
+  display: flex;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.search-input {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: #333;
+  color: #fff;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #1a1a1a;
+  padding: 1rem;
+  border-right: 1px solid #333;
+}
+
+.sidebar nav ul {
+  list-style: none;
+}
+
+.sidebar nav ul li {
+  padding: 0.75rem 0;
+  cursor: pointer;
+}
+
+.view-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.main-player, 
+.view{
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.view {
+  justify-content: start;
+  align-items: flex-start;
+}
+
+.view ul {
+  list-style: none;
+  width: 100%;
+}
+
+.album-art {
+  width: 300px;
+  height: 300px;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  border-radius: 10px;
+}
+
+.track-info {
+  text-align: center;
+}
+
+.track-info h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.track-info p {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.progress-bar input[type="range"] {
+  flex: 1;
+  appearance: none;
+  height: 4px;
+  background: #555;
+  border-radius: 2px;
+  outline: none;
+}
+
+.progress-bar span {
+  font-size: 0.8rem;
+}
+
+.lyrics-area {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.play-queue {
+  width: 250px;
+  background-color: #1a1a1a;
+  padding: 1rem;
+  border-left: 1px solid #333;
+}
+
+.queue-list li {
+  padding: 0.5rem 0;
+  cursor: pointer;
+}
+
+.queue-list li.active {
+  background-color: #333;
+  border-left: 4px solid #ff5252;
+  padding-left: 0.5rem;
+}
+
+.mini-player {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #1f1f1f;
+  border-top: 1px solid #333;
+}
+
+.mini-info,
+.mini-controls,
+.mini-actions {
+  display: flex;
+  align-items: center;
+  gap: 0rem;
+}
+
+.volume-slider {
+  width: 80px;
+  appearance: none;
+  height: 4px;
+  background: #555;
+  border-radius: 2px;
+}
+
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #222;
+  padding: 0.5rem;
+  justify-content: space-around;
+  border-top: 1px solid #333;
+}
+
+.mobile-now-playing {
+  display: none;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #aaa;
+  padding: 0.5rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .sidebar{
+    display: none;
+  }
+
+  .mobile-nav {
+    display: flex;
+  }
+
+  .mobile-now-playing {
+    display: block;
+  }
+
+  .main-player {
+    padding-bottom: 4rem;
+  }
+}
+.music-library,
+.playlist-list,
+.queue-list  {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  overflow: scroll;
+}
+
+.music-library li, 
+.playlist-list li,
+.queue-list li {
+  background-color: #1a1a1a;
+  color: #fff;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-bottom: 1px solid #333;
+}
+
+.music-library li:hover,
+.playlist-list li:hover,
+.queue-list li:hover {
+  background-color: #222;
+}
+.hidden {
+  display: none;
+}
+.sidebar-nav li.active {
+  font-weight: bold;
+  color: #fff;
+  background: #333;
+}
+
+.playlist-actions{
+  display: flex;
+  align-items: center;
+}
+.playlist-item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
