@@ -62,8 +62,9 @@ export const restorePlayer = () => {
   if (!isNaN(savedIndex) && savedIndex >= 0 && savedIndex < queue.length) {
     console.log("Saved index:", savedIndex);
     playTrackAtIndex(savedIndex);
+   
     audioPlayer.currentTime = savedTime;
-    playPauseBtn.click();
+    //playPauseBtn.click();
     //audioPlayer.play(); // Don't auto-play unless you want to
   }
 };
@@ -160,26 +161,51 @@ export function playTrackAtIndex(index: number) {
   const blob = new Blob([track.fileData], { type: track.type });
   const url = URL.createObjectURL(blob);
   track.url = url;
+  
   audioPlayer.src = track.url!;
   audioPlayer.play();
   // Save current playing state
   localStorage.setItem("currentTrackIndex", String(index));
   localStorage.setItem("currentTime", "0");
+ 
   updatePlayerUI(track);
 }
 
 export function updatePlayerUI(track: LibraryTrack) {
-  if(document.querySelector(".track-info h2") &&
-  document.querySelector(".track-info p")){   
+  if (
+    document.querySelector(".track-info h2") &&
+    document.querySelector(".track-info p")
+  ) {
+    document.querySelector(".track-info h2")!.textContent = track.title;
+    document.querySelector(".track-info p")!.textContent = track.artist;
+    //updateProgress;
+  }
 
-  document.querySelector(".track-info h2")!.textContent = track.title;
-  document.querySelector(".track-info p")!.textContent = track.artist;
-  //updateProgress;
-}
 }
 
 export function redrawPlayerUI() {
   const queue = getQueue();
   const current = queue[currentTrackIndex];
     updatePlayerUI(current);
+    activeTrack(currentTrackIndex);
+}
+
+export function activeTrack(index?: number) {
+  let activeIndex = index || localStorage.getItem("currentTrackIndex");
+  if (activeIndex !== null) {
+  const activeItem = document.querySelector(
+    `.queue-item.active[data-index="${activeIndex}"]`
+  );
+  if (activeItem) {
+    activeItem.classList.remove("active");
+  } else {
+    document
+      .querySelectorAll(".queue-item.active")
+      .forEach((el) => el.classList.remove("active"));
+    const newItem = document.querySelector(
+      `.queue-item[data-index="${activeIndex}"]`
+    );
+    if (newItem) newItem.classList.add("active");
+  }
+}
 }
