@@ -3,6 +3,8 @@ export interface LibraryTrack {
   title: string;
   artist: string;
   album?: string;
+  albumArtData?: ArrayBuffer; // <-- Add this
+  albumArtType?: string;
   duration?: number;
   file?: File;
   fileName: string;
@@ -17,6 +19,8 @@ export interface QueueTrack {
   title: string;
   artist: string;
   album?: string;
+  albumArtData?: ArrayBuffer; // <-- Add this
+  albumArtType?: string;
   duration?: number;
   fileName: string;
   fileData: ArrayBuffer;

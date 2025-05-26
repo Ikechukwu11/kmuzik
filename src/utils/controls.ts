@@ -37,6 +37,7 @@ export function initControls() {
 
   audioPlayer.addEventListener("timeupdate", () => {
     localStorage.setItem("currentTime", audioPlayer.currentTime.toString());
+    localStorage.setItem("currentTrackIndex", String(currentTrackIndex));
     updateProgress();
   });
 
@@ -49,7 +50,9 @@ export function initControls() {
   // Initial volume
   audioPlayer.volume = volumeSlider.valueAsNumber / 100;
 
+  
   redrawPlayerUI();
+  updateVinylAnimation();
 }
 
 export const restorePlayer = () => {
@@ -58,11 +61,8 @@ export const restorePlayer = () => {
     localStorage.getItem("currentTrackIndex") || "-1"
   );
   const savedTime = parseFloat(localStorage.getItem("currentTime") || "0");
-  console.log("Saved index:", savedIndex, "Saved time:", savedTime, queue.length);
   if (!isNaN(savedIndex) && savedIndex >= 0 && savedIndex < queue.length) {
-    console.log("Saved index:", savedIndex);
     playTrackAtIndex(savedIndex);
-   
     audioPlayer.currentTime = savedTime;
     //playPauseBtn.click();
     //audioPlayer.play(); // Don't auto-play unless you want to
@@ -102,7 +102,7 @@ function playPrevious() {
 function togglePlayPause() {
   queue = getQueue();
   if (audioPlayer.src === "" && queue.length === 0) return;
-
+  
   // If player is not loaded but queue exists, start first track
   if (!audioPlayer.src && queue.length > 0) {
     playTrackAtIndex(0);
@@ -168,10 +168,11 @@ export function playTrackAtIndex(index: number) {
   localStorage.setItem("currentTrackIndex", String(index));
   localStorage.setItem("currentTime", "0");
  
-  updatePlayerUI(track);
+  updatePlayerUI(track, index);
+  //redrawPlayerUI();
 }
 
-export function updatePlayerUI(track: LibraryTrack) {
+export function updatePlayerUI(track: LibraryTrack, index?: number) {
   if (
     document.querySelector(".track-info h2") &&
     document.querySelector(".track-info p")
@@ -179,15 +180,16 @@ export function updatePlayerUI(track: LibraryTrack) {
     document.querySelector(".track-info h2")!.textContent = track.title;
     document.querySelector(".track-info p")!.textContent = track.artist;
     //updateProgress;
+    redrawPlayerUI(track,index);
   }
 
 }
 
-export function redrawPlayerUI() {
-  const queue = getQueue();
-  const current = queue[currentTrackIndex];
-    updatePlayerUI(current);
-    activeTrack(currentTrackIndex);
+export function redrawPlayerUI(track ?: LibraryTrack,index?: number) {
+ 
+  //updatePlayerUI(current);
+  activeTrack(index);
+  albumArt(track);
 }
 
 export function activeTrack(index?: number) {
@@ -209,3 +211,31 @@ export function activeTrack(index?: number) {
   }
 }
 }
+
+export function albumArt(track ?: LibraryTrack) {
+  const albumArt = document.querySelector(".album-art .vinyl-spin")!;
+  const miniArt = document.querySelector(".mini-info")!;
+  const current = track || getQueue()[currentTrackIndex];
+  let albumArtHTML = "🎵"; // default fallback
+  if (current?.albumArtData && current.albumArtType) {
+    const artBlob = new Blob([current.albumArtData], { type: current.albumArtType });
+    const artUrl = URL.createObjectURL(artBlob);
+    albumArtHTML = `<img src="${artUrl}" alt="Album Art">`;
+  }
+  if (albumArt){ albumArt.innerHTML = albumArtHTML;}
+  if(miniArt) {miniArt.innerHTML = albumArtHTML;}
+}
+
+
+
+function updateVinylAnimation() {
+  const vinylSpin = document.querySelector("#vinyl-spin")!;
+  if (!vinylSpin) return;
+  if (audioPlayer.paused) {
+    vinylSpin.classList.add("paused");
+  } else {
+    vinylSpin.classList.remove("paused");
+  }
+}
+
+

@@ -11,7 +11,9 @@ export default function Player(): string {
 
   return `
     <section class="main-player ${current ? "" : ""}" id="main-player">
-      <div class="album-art">🎵</div>
+      <div class="album-art">
+      <div id="vinyl-spin" class="vinyl-spin paused">🎵</div>
+  </div>
       <div class="track-info">
         <h2>${current?.title || "No Track Playing"}</h2>
         <p>${current?.artist || "Unknown Artist"}</p>
@@ -47,6 +49,7 @@ function setupPlayerHandlers() {
       playTrackAtIndex(index); // ← this will play the selected track
     });
   });
-  redrawPlayerUI();
+  //redrawPlayerUI();
   initControls();
+  
 }

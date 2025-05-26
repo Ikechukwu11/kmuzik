@@ -293,3 +293,57 @@ button {
   align-items: center;
   justify-content: space-between;
 }
+
+.album-art {
+  border-radius: 50%;
+  }
+
+.album-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.mini-info {
+  height: 50px;
+}
+.mini-info img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10%;
+}
+.vinyl-spin {
+  border-radius: 50%;
+  /* make it round */
+  overflow: hidden;
+  margin: 0 auto;
+  animation: spin 6s linear infinite;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  border: 8px solid #222;
+  /* vinyl record edge */
+  background: radial-gradient(circle, #444 60%, #111 100%);
+}
+
+.vinyl-spin img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+.vinyl-spin.paused {
+  animation-play-state: paused;
+}
+
+/* Keyframes for spinning */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
